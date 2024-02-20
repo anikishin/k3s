@@ -1,0 +1,85 @@
+---
+- name: Upgrade all packages
+  ansible.builtin.yum:
+    name: '*'
+    state: latest
+
+- name: install
+  ansible.builtin.yum:
+    name: git
+    state: latest
+
+- name: install
+  ansible.builtin.yum:
+    name: net-tools
+    state: latest
+
+- name: install
+  ansible.builtin.yum:
+    name: mc
+    state: latest
+    
+- name: install
+  ansible.builtin.yum:
+    name: vim
+    state: latest
+    
+- name: install
+  ansible.builtin.yum:
+    name: bash-completion
+    state: latest
+    
+- name: install
+  ansible.builtin.yum:
+    name: nfs-utils
+    state: latest
+    
+- name: install
+  ansible.builtin.yum:
+    name: python2
+    state: latest
+    
+- name: install
+  ansible.builtin.yum:
+    name: python3
+    state: latest
+    
+- name: install
+  ansible.builtin.yum:
+    name: tar
+    state: latest
+    
+- name: install
+  ansible.builtin.yum:
+    name: rsyslog
+    state: latest
+    
+- name: install
+  ansible.builtin.yum:
+    name: python3-libselinux
+    state: latest
+
+- name: Enable rsyslog
+  service:
+    name: rsyslog
+    state: started
+    enabled: yes
+
+- name: Add firewalld rules
+  firewalld:
+    port: "{{ item }}"
+    zone: public
+    permanent: yes
+    state: enabled
+    immediate: true
+  loop:
+    - 6443/tcp
+    - 51820/tcp
+    - 51821/tcp
+    - 10250/tcp
+    - 2379-2380/tcp
+    - 8472/udp
+
+- name: install alias ll
+  ansible.builtin.shell:  alias ll='ls -l -a --color=auto'
+

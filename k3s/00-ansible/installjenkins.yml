@@ -1,0 +1,37 @@
+---
+- name: Install Jenkins
+  hosts: "jenkins_vm"
+  become: false
+  
+  tasks:
+  - name: Upgrade the OS 
+    ansible.builtin.yum:
+      update_cache: yes      
+  - name: Upgrade the OS (apt-get dist-upgrade)
+    ansible.builtin.yum:
+      upgrade: dist
+  - name: download apt key
+    ansible.builtin.yum_key:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+      state: present
+      validate_certs: no
+  - name: Add Jenkins repo to sources.list
+    apt_repository:
+      repo: deb https://pkg.jenkins.io/debian-stable binary/
+      state: present
+      filename: jenkins
+      update_cache: yes
+      validate_certs: no
+  - name: Install java
+    ansible.builtin.yum:
+      name: default-jdk
+      state: latest
+  - name: Update apt cache and install jenkins
+    ansible.builtin.yum:
+      name: jenkins
+      state: present
+  - name: Ensure Jenkins is started and enabled
+    ansible.builtin.systemd:
+      name: jenkins
+      enabled: yes
+      state: started

@@ -1,20 +1,21 @@
 ---
 - name: Install Jenkins
   hosts: "jenkins_vm"
-  become: true
+  become: yes 
 
   tasks:
     - name: Install java
       yum :
-        name: default-jdk
+        name:  java-1.7.0-openjdk
         state: latest
+
     - name: Ensure Jenkins Repository is Installed
       yum_repository:
         name: jenkins
         state: present
         description: Official Jenkins Yum Repo
         baseurl: http://pkg.jenkins.io/redhat
-        gpgkey: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+        gpgkey: https://pkg.jenkins.io/redhat/jenkins.io-2023.key
         gpgcheck: yes
         enabled: yes
     - name: Ensure Jenkins is Installed
@@ -22,14 +23,17 @@
         name: jenkins
         update_cache: yes
         state: present
+#    - name: sleep for 30 seconds and continue with play
+#      wait_for: timeout=30
+#      delegate_to: localhost
     - name: Enable and Start the Jenkins Service
       service:
         name: jenkins
         enabled: yes
-        state: started
-    - name: sleep for 30 seconds and continue with play
-      wait_for: timeout=30
-      delegate_to: localhost
+        state: start
+#    - name: sleep for 30 seconds and continue with play
+#      wait_for: timeout=30
+#      delegate_to: localhost
     - name: Open Firewall Port
       firewalld:
         zone: public

@@ -6,7 +6,7 @@ node2 ansible_host=192.168.1.6 ansible_ssh_user=anikishin
 node3 ansible_host=192.168.1.8 ansible_ssh_user=anikishin
 
 [jenkins_vm]
-jenkins ansible_host=192.168.1.10 ansible_ssh_user=anikishin
+jenkins ansible_host=192.168.1.10 ansible_ssh_user=anikishin 
 
 [k3s_cluster:children]
 k3s_control

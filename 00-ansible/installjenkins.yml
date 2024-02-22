@@ -1,7 +1,7 @@
 ---
 - name: Install Jenkins
   hosts: "jenkins_vm"
-  become: true
+  become: yes
   
   tasks:
   - name: Upgrade the OS 

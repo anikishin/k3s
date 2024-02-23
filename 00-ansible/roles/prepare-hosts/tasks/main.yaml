@@ -59,11 +59,17 @@
     name: python3-libselinux
     state: latest
 
+- name: install
+  ansible.builtin.yum:
+    name: htop
+    state: latest    
+
 - name: Enable rsyslog
   service:
     name: rsyslog
     state: started
     enabled: yes
+
 
 - name: Add firewalld rules
   firewalld:
